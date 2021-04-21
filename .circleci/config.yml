@@ -1,19 +1,12 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@4.2.1
+  slack: circleci/slack@3.4.2
+executors:
+  node-executor:
+    docker:
+      - image: circleci/node:10.18.0
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: yarn install
-            - run: yarn build
-            - run: yarn test
-      - store_test_results:
-          path: test-results
   publish_npm:
     executor: node-executor
     steps:
@@ -23,10 +16,22 @@ jobs:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/project/.npmrc
       - run:
+          name: Build package
+          command: yarn build
+      - run:
           name: Publish package
           command: npm publish
-workflows:
   build-and-test:
+    executor: node-executor
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test
+      - store_test_results:
+          path: test-results
+workflows:
+  build:
     jobs:
       - build-and-test
       - publish_npm:
