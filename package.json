@@ -6,7 +6,7 @@
   "repository": "git@github.com:fabiooshiro/xlsx-calc.git",
   "author": "Sr Oshiro <fabio.oshiro@gmail.com>",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results/results.xml",
     "watch": "mocha --watch --reporter=min",
     "dev": "webpack --mode=development -w",
     "test-w": "mocha -w --check-leaks --sort",
