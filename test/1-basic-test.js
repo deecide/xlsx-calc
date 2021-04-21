@@ -2,16 +2,7 @@
 
 const XLSX_CALC = require("../src");
 const assert = require('assert');
-const errorValues = {
-    '#NULL!': 0x00,
-    '#DIV/0!': 0x07,
-    '#VALUE!': 0x0F,
-    '#REF!': 0x17,
-    '#NAME?': 0x1D,
-    '#NUM!': 0x24,
-    '#N/A': 0x2A,
-    '#GETTING_DATA': 0x2B
-};
+const {errorValues} = require('../src/error_values');
 
 describe('XLSX_CALC', function() {
     let workbook;
@@ -1284,7 +1275,7 @@ describe('XLSX_CALC', function() {
             };
             XLSX_CALC(workbook);
             assert.equal(workbook.Sheets.Sheet1.C1.t, "e");
-            assert.equal(workbook.Sheets.Sheet1.C1.v, 42);
+            assert.equal(workbook.Sheets.Sheet1.C1.v, errorValues['#N/A']);
             assert.equal(workbook.Sheets.Sheet1.C1.w, "#N/A");
         });
     });
@@ -1460,7 +1451,7 @@ describe('XLSX_CALC', function() {
 
             XLSX_CALC(workbook);
             assert.equal(workbook.Sheets.Sheet1.C1.t, "e");
-            assert.equal(workbook.Sheets.Sheet1.C1.v, 42);
+            assert.equal(workbook.Sheets.Sheet1.C1.v, errorValues["#N/A"]);
             assert.equal(workbook.Sheets.Sheet1.C1.w, "#N/A");
         });
         it('should transmit error if any cell in range is in error even in a range with empty cells', function () {
@@ -1486,7 +1477,7 @@ describe('XLSX_CALC', function() {
 
             XLSX_CALC(workbook);
             assert.equal(workbook.Sheets.Sheet1.C1.t, "e");
-            assert.equal(workbook.Sheets.Sheet1.C1.v, 42);
+            assert.equal(workbook.Sheets.Sheet1.C1.v, errorValues["#N/A"]);
             assert.equal(workbook.Sheets.Sheet1.C1.w, "#N/A");
         });
     });
