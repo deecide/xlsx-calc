@@ -1,5 +1,5 @@
 {
-  "name": "xlsx-calc",
+  "name": "@deecide/xlsx-calc",
   "version": "0.6.8",
   "description": "A simple xlsx formula calculator.",
   "main": "src/index.js",
